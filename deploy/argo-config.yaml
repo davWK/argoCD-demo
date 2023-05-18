@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: https://github.com/davWK/argoCD-demo.git
     targetRevision: HEAD
-    path: deploy/kubernetes/
+    path: deploy/kubernetes
   destination: 
     server: https://kubernetes.default.svc
     namespace: demo-app-for-argo-cd
