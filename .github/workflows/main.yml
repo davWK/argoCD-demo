@@ -44,5 +44,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/argoCD_demo:latest
-          
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/argodemo:latest
