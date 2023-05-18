@@ -1,0 +1,48 @@
+name: ArgoCD demo Build
+
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+    
+jobs:
+  test:
+    name: 'Test'
+    runs-on: ubuntu-latest
+    steps:
+      - 
+        name: Checkout
+        uses: actions/checkout@v2
+
+      -
+        name: Run tests
+        run: make test
+
+  build:  
+    name: 'Build & Push to Docker Hub'
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - 
+        name: Checkout
+        uses: actions/checkout@v2
+
+      -
+        name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      -
+        name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/argoCD_demo:latest
+          
